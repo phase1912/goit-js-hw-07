@@ -1,8 +1,6 @@
-function getTotalBalanceByGender(users, gender) {
-    return users
-        .filter(({ gender: g }) => g.toLowerCase() === gender.toLowerCase())
+const getTotalBalanceByGender = (users, gender) =>
+    users.filter(({ gender: g }) => g.toLowerCase() === gender.toLowerCase())
         .reduce((total, { balance }) => balance + total, 0);
-}
 
 const clients = [
     {
