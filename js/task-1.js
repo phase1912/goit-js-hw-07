@@ -1,30 +1,59 @@
-const customer = {
-    username: "Mango",
-    balance: 24000,
-    discount: 0.1,
-    orders: ["Burger", "Pizza", "Salad"],
-    // Change code below this line
-    getBalance() {
-        return this.balance;
-    },
-    getDiscount() {
-        return this.discount;
-    },
-    setDiscount(value) {
-        this.discount = value;
-    },
-    getOrders() {
-        return this.orders;
-    },
-    addOrder(cost, order) {
-        this.balance -= cost - cost * this.discount;
-        this.orders.push(order);
-    },
-    // Change code above this line
-};
+class Category {
+    #name;
+    #items;
 
-customer.setDiscount(0.15);
-console.log(customer.getDiscount()); // 0.15
-customer.addOrder(5000, "Steak");
-console.log(customer.getBalance()); // 19750
-console.log(customer.getOrders()); // ["Burger", "Pizza", "Salad", "Steak"]
+    constructor(name) {
+        this.#name = name;
+        this.#items = [];
+    }
+
+    get name() {
+        return this.#name;
+    }
+
+    get items() {
+        return this.#items;
+    }
+
+    addItem(item) {
+        this.#items.push(item);
+    }
+}
+
+function getLastCategory(items) {
+    return items[items.length - 1];
+}
+
+function getCategories() {
+    const categories = [];
+    const categoriesElement = document.getElementById('categories');
+
+    categoriesElement.childNodes.forEach((child) => {
+        if (child.nodeName === 'LI') {
+            child.childNodes.forEach((category) => {
+                if (category.nodeName === 'H2') {
+                    categories.push(new Category(category.textContent));
+                }
+
+                if (category.nodeName === 'UL') {
+                    category.childNodes.forEach((child2) => {
+                        if (child2.nodeName === 'LI') {
+                            const lastCategory = getLastCategory(categories);
+                            lastCategory.addItem(child2.textContent);
+                        }
+                    });
+                }
+            });
+        }
+    });
+
+    return categories;
+}
+
+const categories = getCategories();
+
+console.log(`Number of categories: ${categories.length}`);
+categories.forEach((category) => {
+    console.log(`Category: ${category.name}`);
+    console.log(`Elements: ${category.items.length}`);
+});
