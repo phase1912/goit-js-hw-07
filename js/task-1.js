@@ -1,59 +1,10 @@
-class Category {
-    #name;
-    #items;
+const categoriesList = document.querySelectorAll('#categories .item');
+console.log(`Number of categories: ${categoriesList.length}`);
 
-    constructor(name) {
-        this.#name = name;
-        this.#items = [];
-    }
+categoriesList.forEach((category) => {
+    const titleElement = category.querySelector('h2');
+    const itemsList = category.querySelectorAll('ul li');
 
-    get name() {
-        return this.#name;
-    }
-
-    get items() {
-        return this.#items;
-    }
-
-    addItem(item) {
-        this.#items.push(item);
-    }
-}
-
-function getLastCategory(items) {
-    return items[items.length - 1];
-}
-
-function getCategories() {
-    const categories = [];
-    const categoriesElement = document.getElementById('categories');
-
-    categoriesElement.childNodes.forEach((child) => {
-        if (child.nodeName === 'LI') {
-            child.childNodes.forEach((category) => {
-                if (category.nodeName === 'H2') {
-                    categories.push(new Category(category.textContent));
-                }
-
-                if (category.nodeName === 'UL') {
-                    category.childNodes.forEach((child2) => {
-                        if (child2.nodeName === 'LI') {
-                            const lastCategory = getLastCategory(categories);
-                            lastCategory.addItem(child2.textContent);
-                        }
-                    });
-                }
-            });
-        }
-    });
-
-    return categories;
-}
-
-const categories = getCategories();
-
-console.log(`Number of categories: ${categories.length}`);
-categories.forEach((category) => {
-    console.log(`Category: ${category.name}`);
-    console.log(`Elements: ${category.items.length}`);
+    console.log(`Category: ${titleElement.textContent}`);
+    console.log(`Elements: ${itemsList.length}`);
 });
